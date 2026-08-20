@@ -29,7 +29,7 @@ class student {
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("sambar")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("curd")) {
             price = 25;
-        } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("chicken curry")) {
+        } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("chickencurry")) {
             price = 50;
         }
         // ==============================break
@@ -74,7 +74,7 @@ class student {
         }
         // =================================================tea====================================================================
         else if (item.replaceAll("\\s+", "").equalsIgnoreCase("lemontea")
-                || item.replaceAll("\\s+", "").equalsIgnoreCase("badam milk")
+                || item.replaceAll("\\s+", "").equalsIgnoreCase("badammilk")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("coffee")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("boosttea")) {
             price =20;

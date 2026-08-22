@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 class student {
     int menu(String item, int Quantity) {
@@ -77,7 +81,7 @@ class student {
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("badammilk")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("coffee")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("boosttea")) {
-            price =20;
+            price = 20;
 
         } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("tea")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("horlicksmilk")
@@ -97,27 +101,24 @@ class student {
             price = 3;
 
         }
-        //===========================================juices====================================================================
+        // ===========================================juices====================================================================
         else if (item.replaceAll("\\s+", "").equalsIgnoreCase("bananamilkshake")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("dragonmilkshake")) {
             price = 60;
 
-        } 
-        else if (item.replaceAll("\\s+", "").equalsIgnoreCase("oreomilkshake")
+        } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("oreomilkshake")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("chocolatemilkshake")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("fruitsalad")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("strawberrymilkshake")) {
             price = 50;
 
-        } 
-        else if (item.replaceAll("\\s+", "").equalsIgnoreCase("grape")
+        } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("grape")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("mixed fruit")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("apple")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("mango")) {
             price = 40;
 
-        } 
-        else if (item.replaceAll("\\s+", "").equalsIgnoreCase("mosambi")
+        } else if (item.replaceAll("\\s+", "").equalsIgnoreCase("mosambi")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("pineapple")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("sapota")
                 || item.replaceAll("\\s+", "").equalsIgnoreCase("banana")
@@ -136,7 +137,12 @@ class student {
 }
 
 public class canteen {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+            throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/canteen_db";
+        String username = "root";
+        String password = "*********";
+        Connection con = DriverManager.getConnection(url, username, password);
         Scanner s = new Scanner(System.in);
         System.out.print("Enter name:");
         String Name = s.nextLine();
@@ -180,6 +186,43 @@ public class canteen {
         int total4 = s1.menu(item4, Quantity4);
 
         int grandtotal = total + total1 + total2 + total3 + total4;
+        // ========================================mysql====================================================================
+        String sql = "INSERT INTO canteen_orders " +
+                "(name, branch, rollno, " +
+                "item1, quantity1, total1, " +
+                "item2, quantity2, total2, " +
+                "item3, quantity3, total3, " +
+                "item4, quantity4, total4, " +
+                "item5, quantity5, total5, grandtotal) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps=con.prepareStatement(sql);
+        ps.setString(1, Name);
+        ps.setString(2, Branch);
+        ps.setString(3, Rollno);
+
+        ps.setString(4, item);
+        ps.setInt(5, Quantity);
+        ps.setInt(6, total);
+
+        ps.setString(7, item1);
+        ps.setInt(8, Quantity1);
+        ps.setInt(9, total1);
+
+        ps.setString(10, item2);
+        ps.setInt(11, Quantity2);
+        ps.setInt(12, total2);
+
+        ps.setString(13, item3);
+        ps.setInt(14, Quantity3);
+        ps.setInt(15, total3);
+
+        ps.setString(16, item4);
+        ps.setInt(17, Quantity4);
+        ps.setInt(18, total4);
+
+        ps.setInt(19, grandtotal);
+
+        ps.executeUpdate();
 
         // ==============================================output====================================================================================================================================================================
         System.out.println("                    ===========================================");
@@ -216,8 +259,8 @@ public class canteen {
         System.out.println("                                                    total:" + total4);
         System.out.println("                    ============================================");
         System.out.println("                                                    total:" + grandtotal);
-         System.out.println("                    ============================================");
-          System.out.println("                    ============================================");
+        System.out.println("                    ============================================");
+        System.out.println("                    ============================================");
 
     }
 

@@ -261,7 +261,7 @@ public class canteen {
         System.out.println("                                                    total:" + grandtotal);
         System.out.println("                    ============================================");
         System.out.println("                    ============================================");
-
+        s.close();
     }
 
 }
